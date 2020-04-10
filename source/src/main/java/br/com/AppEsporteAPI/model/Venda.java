@@ -36,7 +36,7 @@ public class Venda {
 	@Column(name = "NomeLoja", length = 100)
 	private String nomeLoja;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)//ALL, orphanRemoval = true)
 	@JoinColumn(name = "idCliente")
 	private Cliente cliente;
 
