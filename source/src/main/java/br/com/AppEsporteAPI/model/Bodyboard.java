@@ -2,74 +2,99 @@ package br.com.AppEsporteAPI.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name = "TBodyboard")
-@PrimaryKeyJoinColumn(name = "idItemVenda")
-public class Bodyboard extends ItemVenda {
+@PrimaryKeyJoinColumn(name = "idProduto")
+public class Bodyboard extends Produto {
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idProduto", nullable = false)
+	@MapsId
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Produto produto;
 
 	@Column(name = "Tamanho", nullable = false)
-	private double Tamanho;
+	private double tamanho;
 
 	@Column(name = "Preco", nullable = false)
-	private float Preco;
+	private float preco;
 
 	@Column(name = "Cor", nullable = false, length = 200)
-	private String Cor;
+	private String cor;
 
 	@Column(name = "Bloco", nullable = false, length = 200)
-	private String Bloco;
+	private String bloco;
 
 	public Bodyboard() {
-		this.setTipoProduto("Bodyboard");
+		super();
 	}
 
 	public Bodyboard(double tamanho, float preco, String cor, String bloco) {
 		this();
-		Tamanho = tamanho;
-		Preco = preco;
-		Cor = cor;
-		Bloco = bloco;
+		this.setTamanho(tamanho);
+		this.setPreco(preco);
+		this.setCor(cor);
+		this.setBloco(bloco);
 	}
 
 	public double getTamanho() {
-		return Tamanho;
+		return tamanho;
 	}
 
 	public void setTamanho(double tamanho) {
-		Tamanho = tamanho;
+		this.tamanho = tamanho;
 	}
 
 	public float getPreco() {
-		return Preco;
+		return preco;
 	}
 
 	public void setPreco(float preco) {
-		Preco = preco;
+		this.preco = preco;
 	}
 
 	public String getCor() {
-		return Cor;
+		return cor;
 	}
 
 	public void setCor(String cor) {
-		Cor = cor;
+		this.cor = cor;
 	}
 
 	public String getBloco() {
-		return Bloco;
+		return bloco;
 	}
 
 	public void setBloco(String bloco) {
-		Bloco = bloco;
+		this.bloco = bloco;
+	}
+
+	public int getIdProduto() {
+		return produto.getId();
+	}
+
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
 	}
 
 	@Override
 	public String toString() {
 
-		return String.format("%s - %s - %s - %f - %f", this.getBloco(), this.getCor(), this.getDescricao(),
+		return String.format("%s - %s - %s - %f - %f \n", this.getBloco(), this.getCor(), this.getDescricao(),
 				this.getPreco(), this.getTamanho());
 	}
 }

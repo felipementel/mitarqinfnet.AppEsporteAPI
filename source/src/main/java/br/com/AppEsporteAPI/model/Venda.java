@@ -2,6 +2,7 @@ package br.com.AppEsporteAPI.model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,10 +20,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "TVenda")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Venda {
 
 	@Id
@@ -31,26 +35,28 @@ public class Venda {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DataVenda", nullable = false)
-	private Date dataVenda;
+	private Date datavenda;
 
-	@Column(name = "NomeLoja", length = 100)
-	private String nomeLoja;
+	@Column(name = "NomeLoja", length = 100, nullable = false)
+	private String nomeloja;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)//ALL, orphanRemoval = true)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)//DETACH = funcionando // ALL, orphanRemoval = true)
 	@JoinColumn(name = "idCliente")
 	private Cliente cliente;
 
-	@OneToMany(mappedBy = "venda", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "venda", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)//DETACH = funcionando//ALL, orphanRemoval = true)
 	@JsonManagedReference
 	private List<ItemVenda> itensvenda;
 
 	public Venda() {
+		//itensvenda = new ArrayList<ItemVenda>();
 	}
 
-	public Venda(Integer id, Date dataVenda) {
+	public Venda(Integer id, Date dataVenda, String nomeLoja) {
 		this();
 		setId(id);
-		setDataVenda(dataVenda);
+		setDatavenda(dataVenda);
+		setNomeloja(nomeLoja);
 	}
 
 	public Integer getId() {
@@ -77,17 +83,33 @@ public class Venda {
 		this.itensvenda = itensvenda;
 	}
 
-	public Date getDataVenda() {
-		return dataVenda;
+	public Date getDatavenda() {
+		return datavenda;
 	}
 
-	public void setDataVenda(Date _dataVenda) {
-		dataVenda = _dataVenda;
+	public void setDatavenda(Date datavenda) {
+		this.datavenda = datavenda;
+	}
+
+	public String getNomeloja() {
+		return nomeloja;
+	}
+
+	public void setNomeloja(String nomeloja) {
+		this.nomeloja = nomeloja;
 	}
 
 	@Override
 	public String toString() {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-		return String.format("Data da venda: %s", dateFormat.format(this.getDataVenda()));
+		return String.format("Id da venda: %d \n"
+				+ " Data da venda: %s \n"
+				+ " Loja da venda: %s \n"
+				+ " Nome do cliente %s \n",
+				this.getId(), 
+				dateFormat.format(this.getDatavenda()),
+				this.getNomeloja(),
+				this.getCliente().getNome()
+				);
 	}
 }

@@ -2,74 +2,99 @@ package br.com.AppEsporteAPI.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name = "TSkate")
-@PrimaryKeyJoinColumn(name = "idItemVenda")
-public class Skate extends ItemVenda {
+@PrimaryKeyJoinColumn(name = "idProduto")
+public class Skate extends Produto {
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idProduto", nullable = false)
+	@MapsId
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Produto produto;
 
 	@Column(name = "MaterialShape", nullable = false, length = 200)
-	private String MaterialShape;
+	private String materialshape;
 
 	@Column(name = "TamanhoShape", nullable = false)
-	private double TamanhoShape;
+	private double tamanhoshape;
 
 	@Column(name = "Fabricante", nullable = false, length = 200)
-	private String Fabricante;
+	private String fabricante;
 
 	@Column(name = "Preco", nullable = false)
-	private float Preco;
+	private float preco;
 
 	public Skate() {
-		this.setTipoProduto("Skate");
+		super();
 	}
 
 	public Skate(String materialShape, double tamanhoShape, String fabricante, float preco) {
 		this();
-		MaterialShape = materialShape;
-		TamanhoShape = tamanhoShape;
-		Fabricante = fabricante;
-		Preco = preco;
+		this.setMaterialshape(materialShape);
+		this.setTamanhoshape(tamanhoShape);
+		this.setFabricante(fabricante);
+		this.setPreco(preco);
 	}
 
-	public String getMaterialShape() {
-		return MaterialShape;
+	public String getMaterialshape() {
+		return materialshape;
 	}
 
-	public void setMaterialShape(String materialShape) {
-		MaterialShape = materialShape;
+	public void setMaterialshape(String materialshape) {
+		this.materialshape = materialshape;
 	}
 
-	public double getTamanhoShape() {
-		return TamanhoShape;
+	public double getTamanhoshape() {
+		return tamanhoshape;
 	}
 
-	public void setTamanhoShape(double tamanhoShape) {
-		TamanhoShape = tamanhoShape;
+	public void setTamanhoshape(double tamanhoshape) {
+		this.tamanhoshape = tamanhoshape;
 	}
 
 	public String getFabricante() {
-		return Fabricante;
+		return fabricante;
 	}
 
 	public void setFabricante(String fabricante) {
-		Fabricante = fabricante;
+		this.fabricante = fabricante;
 	}
 
 	public float getPreco() {
-		return Preco;
+		return preco;
 	}
 
 	public void setPreco(float preco) {
-		Preco = preco;
+		this.preco = preco;
+	}
+
+	public int getIdProduto() {
+		return produto.getId();
+	}
+
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
 	}
 
 	@Override
 	public String toString() {
 
-		return String.format("%s - %s - %s - %f - %f", this.getDescricao(), this.getFabricante(),
-				this.getMaterialShape(), this.getTamanhoShape(), this.getPreco());
+		return String.format("%s - %s - %s - %f - %f \n", this.getDescricao(), this.getFabricante(),
+				this.getMaterialshape(), this.getTamanhoshape(), this.getPreco());
 	}
 }

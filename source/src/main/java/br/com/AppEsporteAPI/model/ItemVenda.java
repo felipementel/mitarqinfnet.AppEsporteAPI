@@ -7,23 +7,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "TItemVenda")
-@Inheritance(strategy = InheritanceType.JOINED)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tipoProduto")
-@JsonSubTypes({ @JsonSubTypes.Type(value = Skate.class, name = "Skate"),
-		@JsonSubTypes.Type(value = Bodyboard.class, name = "Bicicleta"),
-		@JsonSubTypes.Type(value = Bicicleta.class, name = "Bodyboard") })
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ItemVenda {
 
 	@Id
@@ -33,12 +27,15 @@ public class ItemVenda {
 	@Column(name = "Descricao", nullable = false, length = 200)
 	private String descricao;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)//PERSIST
 	@JoinColumn(name = "idVenda")
 	@JsonBackReference
 	private Venda venda;
-
-	private String tipoProduto;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)//PERSIST
+	@JoinColumn(name = "idProduto")
+	@JsonBackReference
+	private Produto produto;
 
 	public ItemVenda() {
 	}
@@ -57,6 +54,14 @@ public class ItemVenda {
 		this.id = id;
 	}
 
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
+	}
+
 	public String getDescricao() {
 		return descricao;
 	}
@@ -71,14 +76,6 @@ public class ItemVenda {
 
 	public void setVenda(Venda venda) {
 		this.venda = venda;
-	}
-
-	public String getTipoProduto() {
-		return tipoProduto;
-	}
-
-	public void setTipoProduto(String tipoProduto) {
-		this.tipoProduto = tipoProduto;
 	}
 
 }

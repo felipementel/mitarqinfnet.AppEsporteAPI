@@ -22,23 +22,23 @@ public class Cliente {
 	private Integer id;
 
 	@Column(name = "Nome", nullable = false, length = 200)
-	private String Nome;
+	private String nome;
 
 	@Column(name = "DDD", nullable = false, precision = 2)
-	private int DDD;
+	private int ddd;
 
 	@Column(name = "Telefone", nullable = false, precision = 11)
-	private long Telefone;
+	private long telefone;
 
 	@Column(name = "Email", nullable = false, length = 300)
-	private String Email;
+	private String email;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "DataCadastro", nullable = false, columnDefinition = "datetime")
-	private Date Cadastro;
+	private Date datacadastro;
 
 	@Column(name = "Ativo", nullable = false, columnDefinition = "boolean default true")
-	private boolean isAtivo;
+	private boolean isativo;
 
 	public Cliente() {
 	}
@@ -52,58 +52,58 @@ public class Cliente {
 	}
 
 	public String getNome() {
-		return Nome;
+		return nome;
 	}
 
 	public void setNome(String nome) {
-		Nome = nome;
+		this.nome = nome;
 	}
 
-	public int getDDD() {
-		return DDD;
+	public int getDdd() {
+		return ddd;
 	}
 
-	public void setDDD(int dDD) {
-		DDD = dDD;
+	public void setDdd(int ddd) {
+		this.ddd = ddd;
 	}
 
 	public long getTelefone() {
-		return Telefone;
+		return telefone;
 	}
 
 	public void setTelefone(long telefone) {
-		Telefone = telefone;
+		this.telefone = telefone;
 	}
 
 	public String getEmail() {
-		return Email;
+		return email;
 	}
 
 	public void setEmail(String email) {
-		Email = email;
+		this.email = email;
 	}
 
-	public Date getCadastro() {
-		return Cadastro;
+	public Date getDatacadastro() {
+		return datacadastro;
 	}
 
-	public void setCadastro(Date cadastro) {
-		Cadastro = cadastro;
+	public void setDatacadastro(Date datacadastro) {
+		this.datacadastro = datacadastro;
 	}
 
-	public boolean isAtivo() {
-		return isAtivo;
+	public boolean isIsativo() {
+		return isativo;
 	}
 
-	public void setAtivo(boolean isAtivo) {
-		this.isAtivo = isAtivo;
+	public void setIsativo(boolean isativo) {
+		this.isativo = isativo;
 	}
 
 	@Override
 	public String toString() {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-		return String.format("%s - %d - %d - %s - %s - %s", this.getNome(), this.getDDD(), this.getTelefone(),
-				this.getEmail(), this.isAtivo(), dateFormat.format(this.getCadastro()));
+		return String.format("%s - %d - %d - %s - %s - %s", this.getNome(), this.getDdd(), this.getTelefone(),
+				this.getEmail(), this.isIsativo(), dateFormat.format(this.getDatacadastro()));
 	}
 
 }

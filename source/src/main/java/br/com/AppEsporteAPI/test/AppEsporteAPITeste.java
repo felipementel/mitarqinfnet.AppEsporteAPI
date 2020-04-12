@@ -17,8 +17,8 @@ import br.com.AppEsporteAPI.service.VendaService;
 public class AppEsporteAPITeste {
 
 	@Autowired
-	private static VendaService serviceVenda;	
-	
+	private static VendaService serviceVenda;
+
 	public static void main(String[] args) {
 		// TesteConexao();
 
@@ -29,18 +29,18 @@ public class AppEsporteAPITeste {
 
 		Cliente _cliente = new Cliente();
 		_cliente.setNome("Felipe");
-		_cliente.setDDD(21);
+		_cliente.setDdd(21);
 		_cliente.setTelefone(984402668);
 		_cliente.setEmail("felipementel@hotmail.com");
-		_cliente.setAtivo(true);
-		_cliente.setCadastro(new Date());
+		_cliente.setIsativo(true);
+		_cliente.setDatacadastro(new Date());
 
 		System.out.printf("toString() Cliente: %s", _cliente);
 		System.out.println("");
 
 		Venda _venda = new Venda();
 
-		_venda.setDataVenda(new Date());
+		_venda.setDatavenda(new Date());
 
 		_venda.setCliente(_cliente);
 
@@ -50,10 +50,9 @@ public class AppEsporteAPITeste {
 		Skate _skate = new Skate();
 		_skate.setDescricao("Skate longboard");
 		_skate.setFabricante("Sector 9");
-		_skate.setMaterialShape("Bambu");
+		_skate.setMaterialshape("Bambu");
 		_skate.setPreco(999.99f);
-		_skate.setTamanhoShape(40.6d);
-		_skate.setVenda(_venda);
+		_skate.setTamanhoshape(40.6d);
 
 		System.out.printf("toString() Skate: %s", _skate);
 		System.out.println("");
@@ -62,9 +61,8 @@ public class AppEsporteAPITeste {
 		_bicicleta.setCor("Azul");
 		_bicicleta.setDescricao("Montain bike");
 		_bicicleta.setPreco(458.99f);
-		_bicicleta.setTamanhoAro(700);
-		_bicicleta.setTamanhoQuadro(19);
-		_bicicleta.setVenda(_venda);
+		_bicicleta.setTamanhoaro(700);
+		_bicicleta.setTamanhoquadro(19);
 
 		System.out.printf("toString() Bicicleta: %s", _bicicleta);
 		System.out.println("");
@@ -75,15 +73,26 @@ public class AppEsporteAPITeste {
 		_bodyboard.setDescricao("Modelo GT 2020");
 		_bodyboard.setPreco(999.20f);
 		_bodyboard.setTamanho(42.5);
-		_bodyboard.setVenda(_venda);
 
 		System.out.printf("toString() Bodyboard: %s", _bodyboard);
 		System.out.println("");
 
+		ItemVenda _itemVendaSkate = new ItemVenda();
+		_itemVendaSkate.setDescricao("Descricao do Item Venda do Skate");
+		_itemVendaSkate.setProduto(_skate);
+
+		ItemVenda _itemVendaBicicleta = new ItemVenda();
+		_itemVendaBicicleta.setDescricao("Descricao do Item Venda do Bicicleta");
+		_itemVendaBicicleta.setProduto(_bicicleta);
+
+		ItemVenda _itemVendaBodyboard = new ItemVenda();
+		_itemVendaBodyboard.setDescricao("Descricao do Item Venda do Bodyboard");
+		_itemVendaBodyboard.setProduto(_bodyboard);
+
 		List<ItemVenda> _itensVendidos = new ArrayList<ItemVenda>();
-		_itensVendidos.add(_skate);
-		_itensVendidos.add(_bicicleta);
-		_itensVendidos.add(_bodyboard);
+		_itensVendidos.add(_itemVendaSkate);
+		_itensVendidos.add(_itemVendaBicicleta);
+		_itensVendidos.add(_itemVendaBodyboard);
 
 		_venda.setItensvenda(_itensVendidos);
 
